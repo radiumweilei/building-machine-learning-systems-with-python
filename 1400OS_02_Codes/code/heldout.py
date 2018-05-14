@@ -1,4 +1,3 @@
-from matplotlib import pyplot as plt
 import numpy as np
 from sklearn.datasets import load_iris
 from threshold import learn_model, apply_model, accuracy
@@ -6,7 +5,6 @@ from threshold import learn_model, apply_model, accuracy
 data = load_iris()
 features = data['data']
 labels = data['target_names'][data['target']]
-
 
 setosa = (labels == 'setosa')
 features = features[~setosa]
@@ -24,4 +22,3 @@ print('''\
 Training error was {0:.1%}.
 Testing error was {1:.1%} (N = {2}).
 '''.format(train_error, test_error, testing.sum()))
-

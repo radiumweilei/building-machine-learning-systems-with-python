@@ -2,3 +2,4 @@ numpy==1.14.3
 scipy==1.1.0
 matplotlib==2.2.2
 scikit-learn==0.19.1
+milksets==0.2             # This packages contains some U.C.I. datasets in a common Pythonic interface
