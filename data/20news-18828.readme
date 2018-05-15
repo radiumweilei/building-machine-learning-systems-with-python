@@ -1,0 +1,7 @@
+# 下载 wget http://mlcomp.org/download/dataset-379-20news-18828_SOPFP.zip， 如果需要注册请先注册，解压出目录 379
+# 将目录 379 改成 20news-18828, 将绝对路径设到MLCOMP_DIR变量中
+# 参考 sklearn.datasets.load_mlcomp 的注释:
+#   since the http://mlcomp.org/ website will shut down
+#   in March 2017, the load_mlcomp function was deprecated
+#   in version 0.19 and will be removed in 0.21.
+# 这里将已解决好的数据集提交到git中方便后续的学习研究, 直接从git中pull出来然后解压即可正常使用

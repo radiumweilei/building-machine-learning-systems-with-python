@@ -15,7 +15,7 @@ Any ideas? Thanks.
 #   in March 2017, the load_mlcomp function was deprecated
 #   in version 0.19 and will be removed in 0.21.
 # 这里将已解决好的数据集提交到git中方便后续的学习研究, 直接从git中pull出来然后解压即可正常使用
-MLCOMP_DIR = "/weilei/code/python/building-machine-learning-systems-with-python/1400OS_03_Codes/data"  # 这里要写绝对路径
+MLCOMP_DIR = "../../data"
 groups = [
     'comp.graphics', 'comp.os.ms-windows.misc', 'comp.sys.ibm.pc.hardware',
     'comp.sys.ma c.hardware', 'comp.windows.x', 'sci.space']

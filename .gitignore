@@ -106,5 +106,5 @@ venv.bak/
 .idea/
 */*png
 1400OS_02_Codes/code/extra/*tsv
-1400OS_03_Codes/data/20news-18828
+data/20news-18828/*
 1400OS_04_Codes/data/enwiki-latest-pages-articles.xml.bz2
