@@ -11,6 +11,7 @@ posts = [open(os.path.join(DIR, f)).read() for f in os.listdir(DIR)]
 new_post = "imaging databases"
 
 import nltk.stem
+
 english_stemmer = nltk.stem.SnowballStemmer('english')
 
 
@@ -18,6 +19,7 @@ class StemmedCountVectorizer(CountVectorizer):
     def build_analyzer(self):
         analyzer = super(StemmedCountVectorizer, self).build_analyzer()
         return lambda doc: (english_stemmer.stem(w) for w in analyzer(doc))
+
 
 # vectorizer = CountVectorizer(min_df=1, stop_words='english',
 # preprocessor=stemmer)
@@ -31,8 +33,9 @@ class StemmedTfidfVectorizer(TfidfVectorizer):
         analyzer = super(StemmedTfidfVectorizer, self).build_analyzer()
         return lambda doc: (english_stemmer.stem(w) for w in analyzer(doc))
 
-vectorizer = StemmedTfidfVectorizer(
-    min_df=1, stop_words='english', charset_error='ignore')
+
+# vectorizer = StemmedTfidfVectorizer(min_df=1, stop_words='english', charset_error='ignore')
+vectorizer = StemmedTfidfVectorizer(min_df=1, stop_words='english')
 print(vectorizer)
 
 X_train = vectorizer.fit_transform(posts)
@@ -58,6 +61,7 @@ def dist_norm(v1, v2):
     delta = v1_normalized - v2_normalized
 
     return sp.linalg.norm(delta.toarray())
+
 
 dist = dist_norm
 

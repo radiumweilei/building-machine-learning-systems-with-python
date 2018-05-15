@@ -66,13 +66,13 @@ Z = km.predict(sp.c_[mx.ravel(), my.ravel()]).reshape(mx.shape)
 
 plot_clustering(x, y, "Clustering iteration 1", km=km)
 pylab.imshow(Z, interpolation='nearest',
-           extent=(mx.min(), mx.max(), my.min(), my.max()),
-           cmap=pylab.cm.Blues,
-           aspect='auto', origin='lower')
+             extent=(mx.min(), mx.max(), my.min(), my.max()),
+             cmap=pylab.cm.Blues,
+             aspect='auto', origin='lower')
 
 c1a, c1b, c1c = km.cluster_centers_
 pylab.scatter(km.cluster_centers_[:, 0], km.cluster_centers_[:, 1],
-            marker='x', linewidth=2, s=100, color='black')
+              marker='x', linewidth=2, s=100, color='black')
 pylab.savefig(os.path.join("..", "1400_03_0%i.png" % i))
 pylab.clf()
 
@@ -88,13 +88,13 @@ Z = km.predict(sp.c_[mx.ravel(), my.ravel()]).reshape(mx.shape)
 
 plot_clustering(x, y, "Clustering iteration 2", km=km)
 pylab.imshow(Z, interpolation='nearest',
-           extent=(mx.min(), mx.max(), my.min(), my.max()),
-           cmap=pylab.cm.Blues,
-           aspect='auto', origin='lower')
+             extent=(mx.min(), mx.max(), my.min(), my.max()),
+             cmap=pylab.cm.Blues,
+             aspect='auto', origin='lower')
 
 c2a, c2b, c2c = km.cluster_centers_
 pylab.scatter(km.cluster_centers_[:, 0], km.cluster_centers_[:, 1],
-            marker='x', linewidth=2, s=100, color='black')
+              marker='x', linewidth=2, s=100, color='black')
 # import pdb;pdb.set_trace()
 pylab.gca().add_patch(
     pylab.Arrow(c1a[0], c1a[1], c2a[0] - c1a[0], c2a[1] - c1a[1], width=0.1))
@@ -118,12 +118,12 @@ Z = km.predict(sp.c_[mx.ravel(), my.ravel()]).reshape(mx.shape)
 
 plot_clustering(x, y, "Clustering iteration 10", km=km)
 pylab.imshow(Z, interpolation='nearest',
-           extent=(mx.min(), mx.max(), my.min(), my.max()),
-           cmap=pylab.cm.Blues,
-           aspect='auto', origin='lower')
+             extent=(mx.min(), mx.max(), my.min(), my.max()),
+             cmap=pylab.cm.Blues,
+             aspect='auto', origin='lower')
 
 pylab.scatter(km.cluster_centers_[:, 0], km.cluster_centers_[:, 1],
-            marker='x', linewidth=2, s=100, color='black')
+              marker='x', linewidth=2, s=100, color='black')
 pylab.savefig(os.path.join("..", "1400_03_0%i.png" % i))
 pylab.clf()
 
