@@ -4,17 +4,17 @@ from sklearn.datasets import load_iris
 COLOUR_FIGURE = False
 
 data = load_iris()
-features = data['data']
-feature_names = data['feature_names']
-species = data['target_names'][data['target']]
+features = data['data']  # 150条全量数据
+feature_names = data['feature_names']  # 数据的4个维度说明
+species = data['target_names'][data['target']]  # 150条数据的分类标签
 
-setosa = (species == 'setosa')
-features = features[~setosa]
-species = species[~setosa]
-virginica = species == 'virginica'
+setosa = (species == 'setosa')  # 150, 前50为setosa设为true, 其它为false
+features = features[~setosa]  # 除了 setosa 之外的 100 条数据
+species = species[~setosa]  # 除了 setosa 之外的 100 条数据的分类标签
+virginica = species == 'virginica'  # 除了setosa之外的 100条数据, 后50条为virginica设为true, 前50条为false
 
 t = 1.75
-p0, p1 = 3, 2
+p0, p1 = 3, 2  # p0 花瓣宽度, p1 花瓣长度
 
 if COLOUR_FIGURE:
     area1c = (1., .8, .8)
