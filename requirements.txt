@@ -7,7 +7,7 @@ statsmodels==0.9.0      # 统计学库
 nltk==3.3.0             # 自然语言处理库 ## 需要执行下载 import nltk \n nltk.download('stopwords')
 gensim==3.4.0           # 向量空间建模和主题建模工具
 xgboost==0.71           # 大规模并行boosted tree的工具，它是目前最快最好的开源boosted tree工具包，比常见的工具包快10倍以上
-milk==0.6.1             #
+#milk==0.6.1            # 1400OS_04_Codes/build_lda.py用到 import milk  报错 SystemError: initialization of _kmeans failed without raising an exception
 mpltools==0.2.0         #
 
 ## 深度学习框架
