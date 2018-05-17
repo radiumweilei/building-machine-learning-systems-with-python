@@ -1,3 +1,5 @@
+# case 02 Pcn22 鸢尾花Iris数据集，鸢尾花预测，数据源(sklearn内置): ./site-packages/sklearn/datasets/data/iris.csv
+
 from sklearn.datasets import load_iris
 from matplotlib import pyplot as plt
 

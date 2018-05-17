@@ -1,3 +1,5 @@
+# case 06 Pcn49 20newsgroup数据集聚类, 数据源: ../../data
+
 import sklearn.datasets
 import scipy as sp
 

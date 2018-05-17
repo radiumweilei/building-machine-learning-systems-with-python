@@ -1,7 +1,9 @@
+# case 03 Pcn29 种子Seeds数据集，种子预测，数据源: ../data/seeds.tsv
+
 from matplotlib import pyplot as plt
 from matplotlib.colors import ListedColormap
-from load import load_dataset
 import numpy as np
+from load import load_dataset
 from knn import learn_model, apply_model, accuracy
 
 COLOUR_FIGURE = False

@@ -1,3 +1,5 @@
+# case 01 Pcn10 假想的互联网公司访问量预测模型, 多项式拟合
+
 import os
 import scipy as sp
 import matplotlib.pyplot as plt

@@ -1,3 +1,5 @@
+# case 08 Pcn59 wikipedia数据集主题分析, 数据源: ./data/enwiki-latest-pages-articles.xml.bz2  14G
+
 from __future__ import print_function
 import numpy as np
 import logging, gensim

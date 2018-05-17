@@ -1,3 +1,5 @@
+# case 06 Pcn49 20newsgroup数据集主题分析, 数据源: ../../data
+
 # import milk  # 报错 SystemError: initialization of _kmeans failed without raising an exception, 换成 from scipy.spatial import distance
 import numpy as np
 from gensim import corpora, models

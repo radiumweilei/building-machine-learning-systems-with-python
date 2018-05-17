@@ -1,3 +1,5 @@
+# case 05 Pcn46 只含两个词语的帖子聚类, 数据源随机生成?
+
 # inspired by http://scikit-
 # learn.org/dev/auto_examples/cluster/plot_kmeans_digits.html#example-
 # cluster-plot-kmeans-digits-py

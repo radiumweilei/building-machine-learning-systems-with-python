@@ -1,3 +1,5 @@
+# case 07 Pcn55 美国联合通讯社AP数据集, 数据源: ./data
+
 from __future__ import print_function
 from gensim import corpora, models
 # from mpltools import style  已集成到 matplotlib

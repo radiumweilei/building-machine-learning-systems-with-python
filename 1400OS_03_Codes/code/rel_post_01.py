@@ -1,6 +1,7 @@
+# case 04 Pcn38 5个帖子的聚类，数据源: ../data/toy
+
 import os
 import sys
-
 import scipy as sp
 
 from sklearn.feature_extraction.text import CountVectorizer
