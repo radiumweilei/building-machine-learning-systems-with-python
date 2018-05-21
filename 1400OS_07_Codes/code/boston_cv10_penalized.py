@@ -1,36 +1,37 @@
-from __future__ import print_function
-from sklearn.cross_validation import KFold
-from sklearn.linear_model import ElasticNet, Lasso, Ridge
-from sklearn.linear_model import ElasticNetCV, LassoCV, RidgeCV
 import numpy as np
+from sklearn.cross_validation import KFold
+from sklearn.linear_model import ElasticNet, Lasso, Ridge, ElasticNetCV, LassoCV, RidgeCV
 from sklearn.datasets import load_boston
+
 boston = load_boston()
-x = np.array([np.concatenate((v,[1])) for v in boston.data])
+x = np.array([np.concatenate((v, [1])) for v in boston.data])
 y = boston.target
 
-for name,met in [
-        ('elastic-net(.5)', ElasticNet(fit_intercept=True, alpha=0.5)),
-        ('lasso(.5)', Lasso(fit_intercept=True, alpha=0.5)),
-        ('ridge(.5)', Ridge(fit_intercept=True, alpha=0.5)),
-        ]:
-    met.fit(x,y)
-    p = np.array([met.predict(xi) for xi in x])
-    e = p-y
-    total_error = np.dot(e,e)
-    rmse_train = np.sqrt(total_error/len(p))
+for name, met in [
+    ('elastic-net(.5)', ElasticNet(fit_intercept=True, alpha=0.5)),
+    ('lasso(.5)', Lasso(fit_intercept=True, alpha=0.5)),
+    ('ridge(.5)', Ridge(fit_intercept=True, alpha=0.5)),
+]:
+    met.fit(x, y)
+    p = np.array([met.predict(np.array(xi).reshape(1, -1)) for xi in x])
+    e = p - y
+    total_error = np.dot(e, e)
+    rmse_train = np.sqrt(total_error / len(p))
 
     kf = KFold(len(x), n_folds=10)
     err = 0
-    for train,test in kf:
-        met.fit(x[train],y[train])
-        p = np.array([met.predict(xi) for xi in x[test]])
-        e = p-y[test]
-        err += np.dot(e,e)
+    for train, test in kf:
+        met.fit(x[train], y[train])
+        p = np.array([met.predict(np.array(xi).reshape(1, -1)) for xi in x[test]])
+        e = p - y[test]
+        np_dot = np.dot(e, e)
+        if isinstance(err,int)==False and len(np_dot) != len(err):
+            print("err")
+        err = err + np_dot  # todo 维度不一致
 
-    rmse_10cv = np.sqrt(err/len(x))
+    rmse_10cv = np.sqrt(err / len(x))
     print('Method: {}'.format(name))
     print('RMSE on training: {}'.format(rmse_train))
     print('RMSE on 10-fold CV: {}'.format(rmse_10cv))
     print()
     print()
-
