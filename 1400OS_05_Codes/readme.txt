@@ -17,3 +17,8 @@ stackoverflow.com-Posts.7z 已经存储在移动硬盘 /code/python/data/buildin
   python
   >>> import nltk
   >>> nltk.download('punkt')
+7. classify.py
+   log_reg_example.py
+注: data.py (基础配置)
+    util.py (公共工具)
+    PosTagFreqVectorizer.py (没用上)
