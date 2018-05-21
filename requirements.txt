@@ -1,34 +1,34 @@
 ## 机器学习框架
-numpy==1.14.3           # 科学计算的基础包
-scipy==1.1.0            # 解决科学计算中各种标准问题域的包的集合
-scikit-learn==0.19.1    # 常见的机器学习算法提供了一个简洁而一致的界面，使得将ML带入生产系统变得简单
-pandas==0.22.0          # 提供快速便捷地处理结构化数据的大量数据结构和函数
-statsmodels==0.9.0      # 统计学库
-nltk==3.3.0             # 自然语言处理库 ## 需要执行下载 import nltk \n nltk.download('stopwords')
-gensim==3.4.0           # 向量空间建模和主题建模工具
-xgboost==0.71           # 大规模并行boosted tree的工具，它是目前最快最好的开源boosted tree工具包，比常见的工具包快10倍以上
-#milk==0.6.1            # 1400OS_04_Codes/build_lda.py用到 import milk  报错 SystemError: initialization of _kmeans failed without raising an exception
-mpltools==0.2.0         #
+numpy==1.14.3               # 科学计算的基础包
+scipy==1.1.0                # 解决科学计算中各种标准问题域的包的集合
+scikit-learn==0.19.1        # 常见的机器学习算法提供了一个简洁而一致的界面，使得将ML带入生产系统变得简单
+pandas==0.22.0              # 提供快速便捷地处理结构化数据的大量数据结构和函数
+statsmodels==0.9.0          # 统计学库
+nltk==3.3.0                 # 自然语言处理库 ## 需要执行下载 import nltk \n nltk.download('stopwords')
+gensim==3.4.0               # 向量空间建模和主题建模工具
+xgboost==0.71               # 大规模并行boosted tree的工具，它是目前最快最好的开源boosted tree工具包，比常见的工具包快10倍以上
+#milk==0.6.1                # 1400OS_04_Codes/build_lda.py用到 import milk  报错 SystemError: initialization of _kmeans failed without raising an exception
+mpltools==0.2.0             #
 
 ## 深度学习框架
-tensorflow==1.8.0       # google 深度学习框架，当前最流行的一个框架，采用数据流图(data flow graphs),用于数值计算的开源软件库
-theano==1.0.1           # 蒙特利尔大学Lisa Lab团队
-torch==0.4.0            # facebook，LuaJIT上的一个高效的科学计算库，支持大量的机器学习算法，同时以GPU上的计算优先
-mxnet==1.1.0            # amazon，MXNet是DMLC开发，目前已经是AWS官方推荐的深度学习框架。很多作者都是中国人，其最大的贡献组织为百度
-keras==2.1.6            # 用于在高级界面中构建神经网络，使用Theano或TensorFlow作为其后端，微软正在努力将CNTK作为一个新的后端
-#caffe                  # 加州大学伯克利视觉学中心BVLC进行维护，创始人是贾扬清，他同时也是TensorFlow的作者之一，貌似没有python版本
-#cntk==2.5.1            # microsoft，没有mac版本
+tensorflow==1.8.0           # google 深度学习框架，当前最流行的一个框架，采用数据流图(data flow graphs),用于数值计算的开源软件库
+theano==1.0.1               # 蒙特利尔大学Lisa Lab团队
+torch==0.4.0                # facebook，LuaJIT上的一个高效的科学计算库，支持大量的机器学习算法，同时以GPU上的计算优先
+mxnet==1.1.0                # amazon，MXNet是DMLC开发，目前已经是AWS官方推荐的深度学习框架。很多作者都是中国人，其最大的贡献组织为百度
+keras==2.1.6                # 用于在高级界面中构建神经网络，使用Theano或TensorFlow作为其后端，微软正在努力将CNTK作为一个新的后端
+#caffe                      # 加州大学伯克利视觉学中心BVLC进行维护，创始人是贾扬清，他同时也是TensorFlow的作者之一，貌似没有python版本
+#cntk==2.5.1                # microsoft，没有mac版本
 
 ## 可视化框架
-matplotlib==2.2.2       # 绘制数据图表
-plotly==2.6.0           # 号称最牛的可视化库
-seaborn==0.8.1          # 统计模型的可视化
-bokeh==0.12.16          # 交互式可视化，独立于Matplotlib
+matplotlib==2.2.2           # 绘制数据图表
+plotly==2.6.0               # 号称最牛的可视化库
+seaborn==0.8.1              # 统计模型的可视化
+bokeh==0.12.16              # 交互式可视化，独立于Matplotlib
 
 ## 抓取框架
-scrapy==1.5.0           # 用于抓取程序的库，也被称为蜘蛛机器人
+scrapy==1.5.0               # 用于抓取程序的库，也被称为蜘蛛机器人
 
 ## 数据集
-milksets==0.2           # UCI数据集
+milksets==0.2               # UCI数据集
 
-pyenchant==2.0.0        #
+pyenchant==2.0.0            #

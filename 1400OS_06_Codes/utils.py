@@ -1,14 +1,13 @@
 import os
 import collections
-
-from matplotlib import pylab
-import numpy as np
-
-DATA_DIR = os.path.join("..", "data")
-CHART_DIR = os.path.join("..", "charts")
-
 import csv
 import json
+import numpy as np
+from matplotlib import pylab
+
+DATA_DIR = os.path.join(".", "data")
+CHART_DIR = os.path.join(".", "charts")
+
 
 def tweak_labels(Y, pos_sent_list):
     pos = Y == pos_sent_list[0]
@@ -42,8 +41,7 @@ def load_sanders_data(dirname=".", line_count=-1):
             tweet_fn = os.path.join(
                 DATA_DIR, dirname, 'rawdata', '%s.json' % tweet_id)
             tweet = json.load(open(tweet_fn, "r"))
-            if 'text' in tweet and tweet['user']['lang']=="en":
-
+            if 'text' in tweet and tweet['user']['lang'] == "en":
                 topics.append(topic)
                 labels.append(label)
                 tweets.append(tweet['text'])
@@ -84,6 +82,7 @@ def load_kaggle_data(filename="kaggle/training.txt", line_count=-1):
 
     return texts, labels
 
+
 def plot_pr(auc_score, name, phase, precision, recall, label=None):
     pylab.clf()
     pylab.figure(num=None, figsize=(5, 4))
@@ -96,14 +95,14 @@ def plot_pr(auc_score, name, phase, precision, recall, label=None):
     pylab.ylabel('Precision')
     pylab.title('P/R curve (AUC=%0.2f) / %s' % (auc_score, label))
     filename = name.replace(" ", "_")
-    pylab.savefig(os.path.join(CHART_DIR, "pr_%s_%s.png"%(filename, phase)), bbox_inches="tight")
+    pylab.savefig(os.path.join(CHART_DIR, "pr_%s_%s.png" % (filename, phase)), bbox_inches="tight")
 
 
 def show_most_informative_features(vectorizer, clf, n=20):
     c_f = sorted(zip(clf.coef_[0], vectorizer.get_feature_names()))
     top = zip(c_f[:n], c_f[:-(n + 1):-1])
     for (c1, f1), (c2, f2) in top:
-        print "\t%.4f\t%-15s\t\t%.4f\t%-15s" % (c1, f1, c2, f2)
+        print("\t%.4f\t%-15s\t\t%.4f\t%-15s" % (c1, f1, c2, f2))
 
 
 def plot_log():
@@ -192,7 +191,6 @@ def plot_bias_variance(data_sizes, train_errors, test_errors, name):
 
 
 def load_sent_word_net():
-
     sent_scores = collections.defaultdict(list)
 
     with open(os.path.join(DATA_DIR, "SentiWordNet_3.0.0_20130122.txt"), "r") as csvfile:
@@ -200,28 +198,29 @@ def load_sent_word_net():
         for line in reader:
             if line[0].startswith("#"):
                 continue
-            if len(line)==1:
+            if len(line) == 1:
                 continue
 
-            POS,ID,PosScore,NegScore,SynsetTerms,Gloss = line
-            if len(POS)==0 or len(ID)==0:
+            POS, ID, PosScore, NegScore, SynsetTerms, Gloss = line
+            if len(POS) == 0 or len(ID) == 0:
                 continue
-            #print POS,PosScore,NegScore,SynsetTerms
+            # print POS,PosScore,NegScore,SynsetTerms
             for term in SynsetTerms.split(" "):
-                term = term.split("#")[0] # drop #number at the end of every term
+                term = term.split("#")[0]  # drop #number at the end of every term
                 term = term.replace("-", " ").replace("_", " ")
-                key = "%s/%s"%(POS,term.split("#")[0])
+                key = "%s/%s" % (POS, term.split("#")[0])
                 sent_scores[key].append((float(PosScore), float(NegScore)))
     for key, value in sent_scores.iteritems():
         sent_scores[key] = np.mean(value, axis=0)
 
     return sent_scores
 
+
 def log_false_positives(clf, X, y, name):
-    with open("FP_"+name.replace(" ", "_")+".tsv", "w") as f:
-        false_positive = clf.predict(X)!=y
+    with open("FP_" + name.replace(" ", "_") + ".tsv", "w") as f:
+        false_positive = clf.predict(X) != y
         for tweet, false_class in zip(X[false_positive], y[false_positive]):
-            f.write("%s\t%s\n"%(false_class, tweet.encode("ascii", "ignore")))
+            f.write("%s\t%s\n" % (false_class, tweet.encode("ascii", "ignore")))
 
 
 if __name__ == '__main__':
