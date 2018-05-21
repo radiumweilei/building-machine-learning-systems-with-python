@@ -110,3 +110,10 @@ data/20news-18828/*
 1400OS_04_Codes/data/enwiki-latest-pages-articles.xml.bz2
 1400OS_04_Codes/data/ap
 1400OS_04_Codes/data/nohup.out
+1400OS_05_Codes/data/2011-12.xml
+1400OS_05_Codes/data/filtered.tsv
+1400OS_05_Codes/data/chosen.tsv
+1400OS_05_Codes/data/chosen-meta.json
+1400OS_05_Codes/data/filtered-meta.json
+1400OS_05_Codes/charts
+1400OS_05_Codes/data/2011-12.xml.tgz

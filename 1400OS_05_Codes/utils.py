@@ -1,14 +1,12 @@
 import os
+import numpy as np
+from matplotlib import pylab
+from data import CHART_DIR
 
 try:
     import ujson as json  # UltraJSON if available
 except:
     import json
-
-from matplotlib import pylab
-import numpy as np
-
-from data import CHART_DIR
 
 
 def fetch_data(filename, col=None, line_count=-1, only_questions=False):
@@ -19,8 +17,8 @@ def fetch_data(filename, col=None, line_count=-1, only_questions=False):
         if line_count > 0 and count > line_count:
             break
 
-        data = Id, ParentId, IsQuestion, IsAccepted, TimeToAnswer, Score, Text, NumTextTokens, NumCodeLines, LinkCount, MisSpelledFraction = line.split(
-            "\t")
+        data = Id, ParentId, IsQuestion, IsAccepted, TimeToAnswer, Score, Text, NumTextTokens, NumCodeLines, \
+               LinkCount, MisSpelledFraction = line.split("\t")
 
         IsQuestion = int(IsQuestion)
 
@@ -60,7 +58,7 @@ def fetch_data(filename, col=None, line_count=-1, only_questions=False):
 def fetch_posts(filename, with_index=True, line_count=-1):
     count = 0
 
-    for line in open(filename, "r"):
+    for line in open(filename, "r", encoding="utf-8"):
         count += 1
         if line_count > 0 and count > line_count:
             break
@@ -105,13 +103,12 @@ def plot_roc(auc_score, name, fpr, tpr):
     pylab.ylim([0.0, 1.0])
     pylab.xlabel('False Positive Rate')
     pylab.ylabel('True Positive Rate')
-    pylab.title('Receiver operating characteristic (AUC=%0.2f)\n%s' % (
-        auc_score, name))
+    pylab.title('Receiver operating characteristic (AUC=%0.2f)\n%s' % (auc_score, name))
     pylab.legend(loc="lower right")
     pylab.grid(True, linestyle='-', color='0.75')
     pylab.fill_between(tpr, fpr, alpha=0.5)
     pylab.plot(fpr, tpr, lw=1)
-    pylab.savefig(os.path.join(CHART_DIR, "roc_" + name.replace(" ", "_")+ ".png"))
+    pylab.savefig(os.path.join(CHART_DIR, "roc_" + name.replace(" ", "_") + ".png"))
 
 
 def plot_pr(auc_score, name, precision, recall, label=None):
@@ -159,11 +156,11 @@ def plot_feat_importance(feature_names, clf, name):
 
 
 def plot_feat_hist(data_name_list, filename=None):
-    if len(data_name_list)>1:
+    if len(data_name_list) > 1:
         assert filename is not None
 
     pylab.figure(num=None, figsize=(8, 6))
-    num_rows = 1 + (len(data_name_list) - 1) / 2
+    num_rows = int(1 + (len(data_name_list) - 1) / 2)
     num_cols = 1 if len(data_name_list) == 1 else 2
     pylab.figure(figsize=(5 * num_cols, 4 * num_rows))
 
@@ -182,8 +179,10 @@ def plot_feat_hist(data_name_list, filename=None):
                 bins = 50
             else:
                 bins = max_val
-            n, bins, patches = pylab.hist(
-                x, bins=bins, normed=1, facecolor='blue', alpha=0.75)
+
+            if (isinstance(bins, float)):
+                bins = int(bins)
+            n, bins, patches = pylab.hist(x, bins=bins, normed=1, facecolor='blue', alpha=0.75)
 
             pylab.grid(True)
 
@@ -199,11 +198,11 @@ def plot_bias_variance(data_sizes, train_errors, test_errors, name, title):
     pylab.xlabel('Data set size')
     pylab.ylabel('Error')
     pylab.title("Bias-Variance for '%s'" % name)
-    pylab.plot(
-        data_sizes, test_errors, "--", data_sizes, train_errors, "b-", lw=1)
+    pylab.plot(data_sizes, test_errors, "--", data_sizes, train_errors, "b-", lw=1)
     pylab.legend(["train error", "test error"], loc="upper right")
     pylab.grid(True, linestyle='-', color='0.75')
     pylab.savefig(os.path.join(CHART_DIR, "bv_" + name.replace(" ", "_") + ".png"), bbox_inches="tight")
+
 
 def plot_k_complexity(ks, train_errors, test_errors):
     pylab.figure(num=None, figsize=(6, 5))
@@ -211,8 +210,7 @@ def plot_k_complexity(ks, train_errors, test_errors):
     pylab.xlabel('k')
     pylab.ylabel('Error')
     pylab.title('Errors for for different values of k')
-    pylab.plot(
-        ks, test_errors, "--", ks, train_errors, "-", lw=1)
+    pylab.plot(ks, test_errors, "--", ks, train_errors, "-", lw=1)
     pylab.legend(["train error", "test error"], loc="upper right")
     pylab.grid(True, linestyle='-', color='0.75')
     pylab.savefig(os.path.join(CHART_DIR, "kcomplexity.png"), bbox_inches="tight")

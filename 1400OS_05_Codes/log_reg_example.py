@@ -1,20 +1,19 @@
 import numpy as np
 from scipy.stats import norm
-
 from matplotlib import pyplot
-np.random.seed(3)
 
+np.random.seed(3)
 num_per_class = 40
-X = np.hstack((norm.rvs(2, size=num_per_class, scale=2),
-              norm.rvs(8, size=num_per_class, scale=3)))
-y = np.hstack((np.zeros(num_per_class),
-               np.ones(num_per_class)))
+X = np.hstack((norm.rvs(2, size=num_per_class, scale=2), norm.rvs(8, size=num_per_class, scale=3)))
+y = np.hstack((np.zeros(num_per_class), np.ones(num_per_class)))
 
 
 def lr_model(clf, X):
     return 1.0 / (1.0 + np.exp(-(clf.intercept_ + clf.coef_ * X)))
 
+
 from sklearn.linear_model import LogisticRegression
+
 logclf = LogisticRegression()
 print(logclf)
 logclf.fit(X.reshape(num_per_class * 2, 1), y)
@@ -33,7 +32,9 @@ pyplot.savefig("log_reg_example_data.png", bbox_inches="tight")
 def lin_model(clf, X):
     return clf.intercept_ + clf.coef_ * X
 
+
 from sklearn.linear_model import LinearRegression
+
 clf = LinearRegression()
 print(clf)
 clf.fit(X.reshape(num_per_class * 2, 1), y)

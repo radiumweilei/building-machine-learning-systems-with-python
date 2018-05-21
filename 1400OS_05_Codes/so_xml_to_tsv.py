@@ -3,33 +3,32 @@
 # to a question that has been asked in 2011 or 2012.
 #
 
+# 预处理1: 将 2011-12.xml 转换成 filtered.tsv 和 filtered-meta.json
+
 import os
 import re
+from dateutil import parser as dateparser
+from operator import itemgetter
+from xml.etree import cElementTree as etree
+from collections import defaultdict
+from data import DATA_DIR
+
 try:
     import ujson as json  # UltraJSON if available
 except:
     import json
-from dateutil import parser as dateparser
 
-from operator import itemgetter
-from xml.etree import cElementTree as etree
-from collections import defaultdict
-
-from data import DATA_DIR
-
-filename = os.path.join(DATA_DIR, "posts-2011-12.xml")
+filename = os.path.join(DATA_DIR, "2011-12.xml")
 filename_filtered = os.path.join(DATA_DIR, "filtered.tsv")
 
 q_creation = {}  # creation datetimes of questions
 q_accepted = {}  # id of accepted answer
 
-meta = defaultdict(
-    list)  # question -> [(answer Id, IsAccepted, TimeToAnswer, Score), ...]
+meta = defaultdict(list)  # question -> [(answer Id, IsAccepted, TimeToAnswer, Score), ...]
 
 # regegx to find code snippets
 code_match = re.compile('<pre>(.*?)</pre>', re.MULTILINE | re.DOTALL)
-link_match = re.compile(
-    '<a href="http://.*?".*?>(.*?)</a>', re.MULTILINE | re.DOTALL)
+link_match = re.compile('<a href="http://.*?".*?>(.*?)</a>', re.MULTILINE | re.DOTALL)
 img_match = re.compile('<img(.*?)/>', re.MULTILINE | re.DOTALL)
 tag_match = re.compile('<[^>]*>', re.MULTILINE | re.DOTALL)
 
@@ -54,8 +53,7 @@ def filter_html(s):
 
     link_count -= link_count_in_code
 
-    html_free_s = re.sub(
-        " +", " ", tag_match.sub('', code_free_s)).replace("\n", "")
+    html_free_s = re.sub(" +", " ", tag_match.sub('', code_free_s)).replace("\n", "")
 
     link_free_s = html_free_s
     for anchor in anchors:
@@ -65,6 +63,7 @@ def filter_html(s):
     num_text_tokens = html_free_s.count(" ")
 
     return link_free_s, num_text_tokens, num_code_lines, link_count, num_images
+
 
 years = defaultdict(int)
 num_questions = 0
@@ -76,8 +75,7 @@ def parsexml(filename):
 
     counter = 0
 
-    it = map(itemgetter(1),
-             iter(etree.iterparse(filename, events=('start',))))
+    it = map(itemgetter(1), iter(etree.iterparse(filename, events=('start',))))
     root = next(it)  # get posts element
 
     for elem in it:
@@ -129,8 +127,7 @@ def parsexml(filename):
             else:
                 continue
 
-            Text, NumTextTokens, NumCodeLines, LinkCount, NumImages = filter_html(
-                elem.get('Body'))
+            Text, NumTextTokens, NumCodeLines, LinkCount, NumImages = filter_html(elem.get('Body'))
 
             values = (Id, ParentId,
                       IsAccepted,
@@ -142,10 +139,13 @@ def parsexml(filename):
 
             root.clear()  # preserve memory
 
-with open(os.path.join(DATA_DIR, filename_filtered), "w") as f:
+
+with open(os.path.join(DATA_DIR, filename_filtered), "w", encoding="utf-8") as f:
     for item in parsexml(filename):
         line = "\t".join(map(str, item))
-        f.write(line.encode("utf-8") + "\n")
+        # f.write(str(line.encode("utf-8") + b"\n"))
+        # f.write(str(line.encode("utf-8")) + "\n")
+        f.write(line + "\n")
 
 with open(os.path.join(DATA_DIR, "filtered-meta.json"), "w") as f:
     json.dump(meta, f)

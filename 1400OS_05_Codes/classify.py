@@ -1,13 +1,11 @@
 import time
-start_time = time.time()
-
 import numpy as np
 
 from sklearn.metrics import classification_report
 from sklearn.metrics import precision_recall_curve, roc_curve, auc
 from sklearn.cross_validation import KFold
+# from sklearn.model_selection import KFold
 from sklearn import neighbors
-
 from data import chosen, chosen_meta
 from utils import plot_roc, plot_pr
 from utils import plot_feat_importance
@@ -16,6 +14,8 @@ from utils import fetch_posts
 from utils import plot_feat_hist
 from utils import plot_bias_variance
 from utils import plot_k_complexity
+
+start_time = time.time()
 
 # question Id -> {'features'->feature vector, 'answers'->[answer Ids]}, 'scores'->[scores]}
 # scores will be added on-the-fly as the are not in meta
@@ -48,19 +48,17 @@ feature_names = np.array((
 ))
 """
 
+
 def prepare_sent_features():
     for pid, text in fetch_posts(chosen, with_index=True):
         if not text:
             meta[pid]['AvgSentLen'] = meta[pid]['AvgWordLen'] = 0
         else:
-            sent_lens = [len(nltk.word_tokenize(
-                sent)) for sent in nltk.sent_tokenize(text)]
+            sent_lens = [len(nltk.word_tokenize(sent)) for sent in nltk.sent_tokenize(text)]
             meta[pid]['AvgSentLen'] = np.mean(sent_lens)
-            meta[pid]['AvgWordLen'] = np.mean(
-                [len(w) for w in nltk.word_tokenize(text)])
+            meta[pid]['AvgWordLen'] = np.mean([len(w) for w in nltk.word_tokenize(text)])
 
-        meta[pid]['NumAllCaps'] = np.sum(
-            [word.isupper() for word in nltk.word_tokenize(text)])
+        meta[pid]['NumAllCaps'] = np.sum([word.isupper() for word in nltk.word_tokenize(text)])
 
         meta[pid]['NumExclams'] = text.count('!')
 
@@ -70,6 +68,7 @@ prepare_sent_features()
 
 def get_features(aid):
     return tuple(meta[aid][fn] for fn in feature_names)
+
 
 qa_X = np.asarray([get_features(aid) for aid in all_answers])
 # Score > 0 tests => positive class is good answer
@@ -95,7 +94,10 @@ def measure(clf_class, parameters, name, data_size=None, plot=False):
         X = qa_X[:data_size]
         Y = qa_Y[:data_size]
 
-    cv = KFold(n=len(X), n_folds=10, indices=True)
+    # cv = KFold(n=len(X), n_folds=10, indices=True)
+    # cv = KFold(n=len(X), n_folds=10)
+    # cv = KFold(n_splits=10, shuffle=True)
+    cv = KFold(n=len(X), n_folds=10, shuffle=True)
 
     train_errors = []
     test_errors = []
@@ -126,8 +128,7 @@ def measure(clf_class, parameters, name, data_size=None, plot=False):
 
         label_idx = 1
         fpr, tpr, roc_thresholds = roc_curve(y_test, proba[:, label_idx])
-        precision, recall, pr_thresholds = precision_recall_curve(
-            y_test, proba[:, label_idx])
+        precision, recall, pr_thresholds = precision_recall_curve(y_test, proba[:, label_idx])
 
         roc_scores.append(auc(fpr, tpr))
         fprs.append(fpr)
@@ -137,15 +138,14 @@ def measure(clf_class, parameters, name, data_size=None, plot=False):
         precisions.append(precision)
         recalls.append(recall)
         thresholds.append(pr_thresholds)
-        print(classification_report(y_test, proba[:, label_idx] >
-              0.63, target_names=['not accepted', 'accepted']))
+        print(classification_report(y_test, proba[:, label_idx] > 0.63, target_names=['not accepted', 'accepted']))
 
     # get medium clone
     scores_to_sort = pr_scores  # roc_scores
-    medium = np.argsort(scores_to_sort)[len(scores_to_sort) / 2]
+    medium = np.argsort(scores_to_sort)[int(len(scores_to_sort) / 2)]
 
     if plot:
-        #plot_roc(roc_scores[medium], name, fprs[medium], tprs[medium])
+        # plot_roc(roc_scores[medium], name, fprs[medium], tprs[medium])
         plot_pr(pr_scores[medium], name, precisions[medium], recalls[medium], classifying_answer + " answers")
 
         if hasattr(clf, 'coef_'):
@@ -162,8 +162,7 @@ def measure(clf_class, parameters, name, data_size=None, plot=False):
     recalls = recalls[medium]
     thresholds = np.hstack(([0], thresholds[medium]))
     idx80 = precisions >= 0.8
-    print("P=%.2f R=%.2f thresh=%.2f" % (precisions[idx80][0], recalls[
-          idx80][0], thresholds[idx80][0]))
+    print("P=%.2f R=%.2f thresh=%.2f" % (precisions[idx80][0], recalls[idx80][0], thresholds[idx80][0]))
 
     return np.mean(train_errors), np.mean(test_errors)
 
@@ -175,12 +174,12 @@ def bias_variance_analysis(clf_class, parameters, name):
     test_errors = []
 
     for data_size in data_sizes:
-        train_error, test_error = measure(
-            clf_class, parameters, name, data_size=data_size)
+        train_error, test_error = measure(clf_class, parameters, name, data_size=data_size)
         train_errors.append(train_error)
         test_errors.append(test_error)
 
     plot_bias_variance(data_sizes, train_errors, test_errors, name, "Bias-Variance for '%s'" % name)
+
 
 def k_complexity_analysis(clf_class, parameters):
     ks = np.hstack((np.arange(1, 20), np.arange(21, 100, 5)))
@@ -190,28 +189,31 @@ def k_complexity_analysis(clf_class, parameters):
 
     for k in ks:
         parameters['n_neighbors'] = k
-        train_error, test_error = measure(
-            clf_class, parameters, "%dNN" % k, data_size=2000)
+        train_error, test_error = measure(clf_class, parameters, "%dNN" % k, data_size=2000)
         train_errors.append(train_error)
         test_errors.append(test_error)
 
     plot_k_complexity(ks, train_errors, test_errors)
 
-for k in [5]: #[5, 10, 40, 90]:
-    bias_variance_analysis(neighbors.KNeighborsClassifier, {'n_neighbors':k, 'warn_on_equidistant':False}, "%iNN"%k)
-    k_complexity_analysis(neighbors.KNeighborsClassifier, {'n_neighbors':k,
-     'warn_on_equidistant':False})
-    #measure(neighbors.KNeighborsClassifier, {'n_neighbors': k, 'p': 2,
-            #'warn_on_equidistant': False}, "%iNN" % k)
+
+for k in [5]:  # [5, 10, 40, 90]:
+    # bias_variance_analysis(neighbors.KNeighborsClassifier, {'n_neighbors': k, 'warn_on_equidistant': False}, "%iNN" % k)
+    # k_complexity_analysis(neighbors.KNeighborsClassifier, {'n_neighbors': k, 'warn_on_equidistant': False})
+    bias_variance_analysis(neighbors.KNeighborsClassifier, {'n_neighbors': k}, "%iNN" % k)
+    k_complexity_analysis(neighbors.KNeighborsClassifier, {'n_neighbors': k})
+    # measure(neighbors.KNeighborsClassifier, {'n_neighbors': k, 'p': 2,
+    # 'warn_on_equidistant': False}, "%iNN" % k)
 
 from sklearn.linear_model import LogisticRegression
-for C in [0.1]: #[0.01, 0.1, 1.0, 10.0]:
+
+for C in [0.1]:  # [0.01, 0.1, 1.0, 10.0]:
     name = "LogReg C=%.2f" % C
-    bias_variance_analysis(LogisticRegression, {'penalty':'l2', 'C':C}, name)
+    bias_variance_analysis(LogisticRegression, {'penalty': 'l2', 'C': C}, name)
     measure(LogisticRegression, {'penalty': 'l2', 'C': C}, name, plot=True)
 
 print("=" * 50)
 from operator import itemgetter
+
 for s in reversed(sorted(avg_scores_summary, key=itemgetter(1))):
     print("%-20s\t%.5f\t%.5f\t%.5f\t%.5f\t%.5f\t%.5f\t%.5f" % s)
 

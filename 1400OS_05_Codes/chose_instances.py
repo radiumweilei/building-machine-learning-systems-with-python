@@ -1,22 +1,21 @@
-import os
+# 将 filtered.tsv 和 filtered-meta.json 转换成 chosen.tsv 和 chosen-meta.json
+
+from collections import defaultdict
+from data import chosen, chosen_meta, filtered, filtered_meta
+
 try:
     import ujson as json  # UltraJSON if available
 except:
     import json
 import sys
-from collections import defaultdict
 
 try:
     import enchant
 except:
-    print(
-        "Enchant is not installed. You can get it from http://packages.python.org/pyenchant/. Exitting...")
+    print("Enchant is not installed. You can get it from http://packages.python.org/pyenchant/. Exitting...")
     sys.exit(1)
 
-from data import chosen, chosen_meta, filtered, filtered_meta
-
 filtered_meta = json.load(open(filtered_meta, "r"))
-
 speller = enchant.Dict("en_US")
 
 
@@ -28,16 +27,21 @@ def misspelled_fraction(p):
 
 
 def data(filename, col=None):
-    for line in open(filename, "r"):
+    for line in open(filename, "r", encoding="utf-8"):
         data = line.strip().split("\t")
 
         # check format
-        Id, ParentId, IsAccepted, TimeToAnswer, Score, Text, NumTextTokens, NumCodeLines, LinkCount, NumImages = data
+        # Id, ParentId, IsAccepted, TimeToAnswer, Score, Text, NumTextTokens, NumCodeLines, LinkCount, NumImages = data
+        try:
+            Id, ParentId, IsAccepted, TimeToAnswer, Score, Text, NumTextTokens, NumCodeLines, LinkCount, NumImages = data
+        except:
+            print(data)
 
         if col:
             yield data[col]
         else:
             yield data
+
 
 posts_to_keep = set()
 found_questions = 0
@@ -165,8 +169,7 @@ for ParentId, posts in filtered_meta.items():
 
                 negScore, negId = sorted(NegativeScoreIds)[0]
                 posts_to_keep.add(negId)
-                print("%i: %i/%i %i/%i" % (ParentId, posId,
-                      posScore, negId, negScore))
+                print("%i: %i/%i %i/%i" % (ParentId, posId, posScore, negId, negScore))
                 added = True
 
         if added:
@@ -181,9 +184,13 @@ kept = 0
 already_written = set()
 chosen_meta_dict = defaultdict(dict)
 
-with open(chosen, "w") as f:
+with open(chosen, "w", encoding="utf-8") as f:
     for line in data(filtered):
-        strId, ParentId, IsAccepted, TimeToAnswer, Score, Text, NumTextTokens, NumCodeLines, LinkCount, NumImages = line
+        try:
+            strId, ParentId, IsAccepted, TimeToAnswer, Score, Text, NumTextTokens, NumCodeLines, LinkCount, NumImages = line
+        except:
+            print(line)
+        # strId, ParentId, IsAccepted, TimeToAnswer, Score, Text, NumTextTokens, NumCodeLines, LinkCount, NumImages = line
         Text = Text.strip()
 
         total += 1

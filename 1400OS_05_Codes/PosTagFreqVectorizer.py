@@ -1,14 +1,10 @@
 import re
+import scipy.sparse as sp
+import nltk
 from operator import itemgetter
 from collections import Mapping
-
-import scipy.sparse as sp
-
 from sklearn.base import BaseEstimator
 from sklearn.feature_extraction.text import strip_accents_ascii, strip_accents_unicode
-
-import nltk
-
 from collections import Counter
 
 try:
@@ -23,9 +19,7 @@ class PosCounter(Counter):
     def __init__(self, iterable=(), normalize=True, poscache=None, **kwargs):
         self.n_sents = 0
         self.normalize = normalize
-
         self.poscache = poscache
-
         super(PosCounter, self).__init__(iterable, **kwargs)
 
     def update(self, other):
@@ -43,8 +37,7 @@ class PosCounter(Counter):
                     if sent in self.poscache:
                         tags = self.poscache[sent]
                     else:
-                        self.poscache[sent] = tags = nltk.pos_tag(
-                            nltk.word_tokenize(sent))
+                        self.poscache[sent] = tags = nltk.pos_tag(nltk.word_tokenize(sent))
                 else:
                     tags = nltk.pos_tag(nltk.word_tokenize(sent))
 
@@ -126,8 +119,7 @@ class PosTagFreqVectorizer(BaseEstimator):
         elif self.strip_accents == 'unicode':
             strip_accents = strip_accents_unicode
         else:
-            raise ValueError('Invalid value for "strip_accents": %s' %
-                             self.strip_accents)
+            raise ValueError('Invalid value for "strip_accents": %s' % self.strip_accents)
 
         only_prose = lambda s: re.sub('<[^>]*>', '', s).replace("\n", " ")
 
@@ -139,11 +131,8 @@ class PosTagFreqVectorizer(BaseEstimator):
 
     def build_analyzer(self):
         """Return a callable that handles preprocessing and tokenization"""
-
         preprocess = self.build_preprocessor()
-
         tokenize = self.build_tokenizer()
-
         return lambda doc: tokenize(preprocess(self.decode(doc)))
 
     def _term_count_dicts_to_matrix(self, term_count_dicts):
@@ -163,8 +152,7 @@ class PosTagFreqVectorizer(BaseEstimator):
             term_count_dict.clear()
 
         shape = (len(term_count_dicts), max(vocabulary.values()) + 1)
-        spmatrix = sp.csr_matrix((values, (i_indices, j_indices)),
-                                 shape=shape, dtype=self.dtype)
+        spmatrix = sp.csr_matrix((values, (i_indices, j_indices)), shape=shape, dtype=self.dtype)
         return spmatrix
 
     def fit(self, raw_documents, y=None):
@@ -214,14 +202,11 @@ class PosTagFreqVectorizer(BaseEstimator):
         analyze = self.build_analyzer()
 
         for doc in raw_documents:
-            term_count_current = PosCounter(
-                analyze(doc), normalize=self.normalize, poscache=self.poscache)
+            term_count_current = PosCounter(analyze(doc), normalize=self.normalize, poscache=self.poscache)
             term_counts.update(term_count_current)
-
             term_counts_per_doc.append(term_count_current)
 
         self.write_poscache()
-
         terms = set(term_counts)
 
         # store map from term name to feature integer index: we sort the term
