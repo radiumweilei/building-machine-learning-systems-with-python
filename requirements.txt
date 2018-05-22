@@ -8,7 +8,6 @@ nltk==3.3.0                 # 自然语言处理库 ## 需要执行下载 import
 gensim==3.4.0               # 向量空间建模和主题建模工具
 xgboost==0.71               # 大规模并行boosted tree的工具，它是目前最快最好的开源boosted tree工具包，比常见的工具包快10倍以上
 #milk==0.6.1                # 1400OS_04_Codes/build_lda.py用到 import milk  报错 SystemError: initialization of _kmeans failed without raising an exception
-mpltools==0.2.0             #
 
 ## 深度学习框架
 tensorflow==1.8.0           # google 深度学习框架，当前最流行的一个框架，采用数据流图(data flow graphs),用于数值计算的开源软件库
@@ -21,6 +20,7 @@ keras==2.1.6                # 用于在高级界面中构建神经网络，使�
 
 ## 可视化框架
 matplotlib==2.2.2           # 绘制数据图表
+mpltools==0.2.0             # provides tools for working with matplotlib
 plotly==2.6.0               # 号称最牛的可视化库
 seaborn==0.8.1              # 统计模型的可视化
 bokeh==0.12.16              # 交互式可视化，独立于Matplotlib
@@ -31,4 +31,6 @@ scrapy==1.5.0               # 用于抓取程序的库，也被称为蜘蛛机�
 ## 数据集
 milksets==0.2               # UCI数据集
 
-pyenchant==2.0.0            #
+pyenchant==2.0.0            # Enchant spellchecking library
+mahotas==1.4.4              # 计算机视觉工具集
+imread==0.6.1               # image读写工具
