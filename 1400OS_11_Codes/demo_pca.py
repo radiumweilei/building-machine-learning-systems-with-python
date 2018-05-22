@@ -1,13 +1,10 @@
 import os
-
-from matplotlib import pylab
 import numpy as np
-
+from matplotlib import pylab
 from sklearn import linear_model, decomposition
-from sklearn import lda
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as lda
 
 logistic = linear_model.LogisticRegression()
-
 
 CHART_DIR = os.path.join("..", "charts")
 
@@ -53,10 +50,8 @@ def plot_simple_demo_1():
     Xg = Xtrans[good]
     Xb = Xtrans[bad]
 
-    pylab.scatter(
-        Xg[:, 0], np.zeros(len(Xg)), edgecolor="blue", facecolor="blue")
-    pylab.scatter(
-        Xb[:, 0], np.zeros(len(Xb)), edgecolor="red", facecolor="white")
+    pylab.scatter(Xg[:, 0], np.zeros(len(Xg)), edgecolor="blue", facecolor="blue")
+    pylab.scatter(Xb[:, 0], np.zeros(len(Xb)), edgecolor="red", facecolor="white")
     title = "Transformed feature space"
     pylab.title(title)
     pylab.xlabel("$X'$")
@@ -107,10 +102,8 @@ def plot_simple_demo_2():
     Xg = Xtrans[good]
     Xb = Xtrans[bad]
 
-    pylab.scatter(
-        Xg[:, 0], np.zeros(len(Xg)), edgecolor="blue", facecolor="blue")
-    pylab.scatter(
-        Xb[:, 0], np.zeros(len(Xb)), edgecolor="red", facecolor="white")
+    pylab.scatter(Xg[:, 0], np.zeros(len(Xg)), edgecolor="blue", facecolor="blue")
+    pylab.scatter(Xb[:, 0], np.zeros(len(Xb)), edgecolor="red", facecolor="white")
     title = "Transformed feature space"
     pylab.title(title)
     pylab.xlabel("$X'$")
@@ -152,16 +145,14 @@ def plot_simple_demo_lda():
 
     X = np.c_[(x1, x2)]
 
-    lda_inst = lda.LDA(n_components=1)
+    lda_inst = lda(n_components=1)
     Xtrans = lda_inst.fit_transform(X, good)
 
     Xg = Xtrans[good]
     Xb = Xtrans[bad]
 
-    pylab.scatter(
-        Xg[:, 0], np.zeros(len(Xg)), edgecolor="blue", facecolor="blue")
-    pylab.scatter(
-        Xb[:, 0], np.zeros(len(Xb)), edgecolor="red", facecolor="white")
+    pylab.scatter(Xg[:, 0], np.zeros(len(Xg)), edgecolor="blue", facecolor="blue")
+    pylab.scatter(Xb[:, 0], np.zeros(len(Xb)), edgecolor="red", facecolor="white")
     title = "Transformed feature space"
     pylab.title(title)
     pylab.xlabel("$X'$")
@@ -172,6 +163,7 @@ def plot_simple_demo_lda():
     pylab.autoscale(tight=True)
     filename = "lda_demo.png"
     pylab.savefig(os.path.join(CHART_DIR, filename), bbox_inches="tight")
+
 
 if __name__ == '__main__':
     plot_simple_demo_1()

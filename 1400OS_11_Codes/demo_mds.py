@@ -1,12 +1,11 @@
 import os
-
 import numpy as np
 from matplotlib import pylab
 from mpl_toolkits.mplot3d import Axes3D
 
 from sklearn import linear_model, manifold, decomposition, datasets
-logistic = linear_model.LogisticRegression()
 
+logistic = linear_model.LogisticRegression()
 
 CHART_DIR = os.path.join("..", "charts")
 
@@ -24,14 +23,15 @@ def plot_demo_1():
     fig = pylab.figure(figsize=(10, 4))
 
     ax = fig.add_subplot(121, projection='3d')
-    ax.set_axis_bgcolor('white')
+    # ax.set_axis_bgcolor('white')
 
     mds = manifold.MDS(n_components=3)
     Xtrans = mds.fit_transform(X)
 
     for cl, color, marker in zip(np.unique(y), colors, markers):
         ax.scatter(
-            Xtrans[y == cl][:, 0], Xtrans[y == cl][:, 1], Xtrans[y == cl][:, 2], c=color, marker=marker, edgecolor='black')
+            Xtrans[y == cl][:, 0], Xtrans[y == cl][:, 1], Xtrans[y == cl][:, 2], c=color, marker=marker,
+            edgecolor='black')
     pylab.title("MDS on example data set in 3 dimensions")
     ax.view_init(10, -15)
 
@@ -49,7 +49,6 @@ def plot_demo_1():
 
 
 def plot_iris_mds():
-
     iris = datasets.load_iris()
     X = iris.data
     y = iris.target
@@ -59,14 +58,15 @@ def plot_iris_mds():
     fig = pylab.figure(figsize=(10, 4))
 
     ax = fig.add_subplot(121, projection='3d')
-    ax.set_axis_bgcolor('white')
+    # ax.set_axis_bgcolor('white')
 
     mds = manifold.MDS(n_components=3)
     Xtrans = mds.fit_transform(X)
 
     for cl, color, marker in zip(np.unique(y), colors, markers):
         ax.scatter(
-            Xtrans[y == cl][:, 0], Xtrans[y == cl][:, 1], Xtrans[y == cl][:, 2], c=color, marker=marker, edgecolor='black')
+            Xtrans[y == cl][:, 0], Xtrans[y == cl][:, 1], Xtrans[y == cl][:, 2], c=color, marker=marker,
+            edgecolor='black')
     pylab.title("MDS on Iris data set in 3 dimensions")
     ax.view_init(10, -15)
 
@@ -87,14 +87,15 @@ def plot_iris_mds():
     fig = pylab.figure(figsize=(10, 4))
 
     ax = fig.add_subplot(121, projection='3d')
-    ax.set_axis_bgcolor('white')
+    # ax.set_axis_bgcolor('white')
 
     pca = decomposition.PCA(n_components=3)
     Xtrans = pca.fit(X).transform(X)
 
     for cl, color, marker in zip(np.unique(y), colors, markers):
         ax.scatter(
-            Xtrans[y == cl][:, 0], Xtrans[y == cl][:, 1], Xtrans[y == cl][:, 2], c=color, marker=marker, edgecolor='black')
+            Xtrans[y == cl][:, 0], Xtrans[y == cl][:, 1], Xtrans[y == cl][:, 2], c=color, marker=marker,
+            edgecolor='black')
     pylab.title("PCA on Iris data set in 3 dimensions")
     ax.view_init(50, -35)
 

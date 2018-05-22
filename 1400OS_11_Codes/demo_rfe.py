@@ -3,8 +3,7 @@ from sklearn.linear_model import LogisticRegression
 
 from sklearn.datasets import make_classification
 
-X, y = make_classification(
-    n_samples=100, n_features=10, n_informative=3, random_state=0)
+X, y = make_classification(n_samples=100, n_features=10, n_informative=3, random_state=0)
 
 clf = LogisticRegression()
 clf.fit(X, y)
