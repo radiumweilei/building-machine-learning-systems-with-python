@@ -19,8 +19,8 @@ genre_list = GENRE_LIST
 def train_model(clf_factory, X, Y, name, plot=False):
     labels = np.unique(Y)
 
-    cv = ShuffleSplit(
-        n=len(X), n_iter=1, test_size=0.3, indices=True, random_state=0)
+    # cv = ShuffleSplit(n=len(X), n_iter=1, test_size=0.3, indices=True, random_state=0)
+    cv = ShuffleSplit(n=len(X), n_iter=1, test_size=0.3, random_state=0)
 
     train_errors = []
     test_errors = []
@@ -43,7 +43,7 @@ def train_model(clf_factory, X, Y, name, plot=False):
         X_test, y_test = X[test], Y[test]
 
         clf = clf_factory()
-        clf.fit(X_train, y_train)
+        clf.fit(X_train, y_train)  # todo 维度不一致
         clfs.append(clf)
 
         train_score = clf.score(X_train, y_train)
@@ -76,7 +76,7 @@ def train_model(clf_factory, X, Y, name, plot=False):
 
     if plot:
         for label in labels:
-            print "Plotting", genre_list[label]
+            print("Plotting", genre_list[label])
             scores_to_sort = roc_scores[label]
             median = np.argsort(scores_to_sort)[len(scores_to_sort) / 2]
 
@@ -89,7 +89,7 @@ def train_model(clf_factory, X, Y, name, plot=False):
     all_pr_scores = np.asarray(pr_scores.values()).flatten()
     summary = (np.mean(scores), np.std(scores),
                np.mean(all_pr_scores), np.std(all_pr_scores))
-    print "%.3f\t%.3f\t%.3f\t%.3f\t" % summary
+    print("%.3f\t%.3f\t%.3f\t%.3f\t" % summary)
 
     return np.mean(train_errors), np.mean(test_errors), np.asarray(cms)
 
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     cm_avg = np.mean(cms, axis=0)
     cm_norm = cm_avg / np.sum(cm_avg, axis=0)
 
-    print cm_norm
+    print(cm_norm)
 
     plot_confusion_matrix(cm_norm, genre_list, "fft",
                           "Confusion matrix of an FFT based classifier")

@@ -6,7 +6,7 @@ import numpy as np
 DATA_DIR = os.path.join("..", "data")
 CHART_DIR = os.path.join("..", "charts")
 
-GENRE_DIR = "/media/sf_P/pymlbook-data/09-genre-class/genres"
+GENRE_DIR = "../data/genres"
 GENRE_LIST = ["classical", "jazz", "country", "pop", "rock", "metal"]
 
 def plot_confusion_matrix(cm, genre_list, name, title):
@@ -64,7 +64,7 @@ def show_most_informative_features(vectorizer, clf, n=20):
     c_f = sorted(zip(clf.coef_[0], vectorizer.get_feature_names()))
     top = zip(c_f[:n], c_f[:-(n + 1):-1])
     for (c1, f1), (c2, f2) in top:
-        print "\t%.4f\t%-15s\t\t%.4f\t%-15s" % (c1, f1, c2, f2)
+        print("\t%.4f\t%-15s\t\t%.4f\t%-15s" % (c1, f1, c2, f2))
 
 
 def plot_log():

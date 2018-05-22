@@ -105,8 +105,10 @@ venv.bak/
 
 .idea/
 */*png
-1400OS_02_Codes/code/extra/*tsv
 data/20news-18828/*
+data/genres.tar.gz
+data/genres
+1400OS_02_Codes/code/extra/*tsv
 1400OS_04_Codes/data/enwiki-latest-pages-articles.xml.bz2
 1400OS_04_Codes/data/ap
 1400OS_04_Codes/data/nohup.out
@@ -122,4 +124,3 @@ data/20news-18828/*
 1400OS_07_Codes/data
 1400OS_10_Codes/AnimTransDistr
 charts
-genres.tar.gz

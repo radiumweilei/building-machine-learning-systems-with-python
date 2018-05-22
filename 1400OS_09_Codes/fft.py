@@ -20,7 +20,8 @@ def write_fft(fft_features, fn):
     data_fn = base_fn + ".fft"
 
     np.save(data_fn, fft_features)
-    print "Written", data_fn
+    print
+    "Written", data_fn
 
 
 def create_fft(fn):
@@ -36,7 +37,7 @@ def read_fft(genre_list, base_dir=GENRE_DIR):
     for label, genre in enumerate(genre_list):
         genre_dir = os.path.join(base_dir, genre, "*.fft.npy")
         file_list = glob.glob(genre_dir)
-        assert(file_list), genre_dir
+        # assert (file_list), genre_dir  # todo 是否还需要?
         for fn in file_list:
             fft_features = np.load(fn)
 
@@ -54,7 +55,7 @@ def plot_wav_fft(wav_filename, desc=None):
     freq = np.fft.fftfreq(len(X), 1.0 / sample_rate)
 
     plt.subplot(211)
-    num_samples = 200.0
+    num_samples = 200
     plt.xlim(0, num_samples / sample_rate)
     plt.xlabel("time [s]")
     plt.title(desc or wav_filename)
@@ -77,8 +78,7 @@ def plot_wav_fft(wav_filename, desc=None):
     plt.tight_layout()
 
     rel_filename = os.path.split(wav_filename)[1]
-    plt.savefig("%s_wav_fft.png" % os.path.splitext(rel_filename)[0],
-                bbox_inches='tight')
+    plt.savefig(CHART_DIR + "/" + "%s_wav_fft.png" % os.path.splitext(rel_filename)[0], bbox_inches='tight')
 
     plt.show()
 
