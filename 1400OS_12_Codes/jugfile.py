@@ -13,7 +13,8 @@ def add(a, b):
 @TaskGenerator
 def print_final_result(oname, value):
     with open(oname, 'w') as output:
-        print >>output, "Final result:", value
+        # print >>output, "Final result:", value
+        print("Final result:" +value, file=output)
 
 input = 2
 y = double(input)

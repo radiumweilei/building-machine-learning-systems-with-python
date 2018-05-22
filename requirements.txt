@@ -36,3 +36,4 @@ mahotas==1.4.4              # 计算机视觉工具集
 imread==0.6.1               # image读写工具
 #scikits.talkbox==0.2.5     # for speech/signal processing, 只能用在python2
 librosa==0.6.0              # 替代scikits.talkbox==0.2.5
+Jug==1.6.7                  # A Task Based Parallelization Framework
