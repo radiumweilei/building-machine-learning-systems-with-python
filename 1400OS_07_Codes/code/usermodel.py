@@ -3,7 +3,7 @@ from scipy import sparse
 from sklearn.linear_model import LassoCV, RidgeCV, ElasticNetCV
 from sklearn.cross_validation import KFold
 
-data = np.array([[int(tok) for tok in line.split('\t')[:3]] for line in open('../data/ml-100k/u.data')])
+data = np.array([[int(tok) for tok in line.split('\t')[:3]] for line in open('../../data/ml-100k/u.data')])
 ij = data[:, :2]
 ij -= 1  # original data is in 1-based system
 values = data[:, 2]

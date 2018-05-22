@@ -18,7 +18,7 @@ y = boston.target
 
 (slope, bias), res, _, _ = np.linalg.lstsq(x, y)
 plt.plot([xmin, xmax], [slope * xmin + bias, slope * xmax + bias], '-', lw=4)
-plt.savefig('Figure2.png', dpi=150)
+plt.savefig('../../charts/1400_07_02.png', dpi=150)
 
 rmse = np.sqrt(res[0] / len(x))
 print('Residual: {}'.format(rmse))

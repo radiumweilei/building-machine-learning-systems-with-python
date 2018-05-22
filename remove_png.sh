@@ -7,3 +7,4 @@ rm -rf ./1400OS_04_Codes/*.png
 rm -rf ./1400OS_05_Codes/*.png
 rm -rf ./1400OS_05_Codes/charts/*.png
 rm -rf ./1400OS_06_Codes/charts/*.png
+rm -rf ./charts/*.png
